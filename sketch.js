@@ -3,7 +3,8 @@ const World  = Matter. World;
 const Bodies = Matter. Bodies;
 const Constraint = Matter.Constraint;
 
-var i
+var img
+var bg = "sprites/bg.png";
 var engine, world;
 var ground;
 var pltfma
@@ -15,6 +16,8 @@ var cerdo1;
 var cerdo2;
 var cerdo3;
 var cerdo4;
+var cerdo5;
+var cerdo6;
 
 var caja1;
 var caja2;
@@ -32,7 +35,9 @@ var gameState
 var score;
 
 function preload() {
- i = loadImage("sprites/bg.png");
+ 
+
+ getBck();
 }
 
 function setup(){
@@ -46,21 +51,24 @@ createCanvas(1200,400)
   
   bird = new Birds(100,200);
   
-  cerdo1 = new Cerdos(600,250);
-  cerdo2 = new Cerdos(600,120);
-  cerdo3 = new Cerdos(600,20);
-  cerdo4 = new Cerdos(700,0);
+  cerdo1 = new Cerdos(600,380,50,50);
+  cerdo2 = new Cerdos(600,310,50,50);
+  cerdo3 = new Cerdos(600,250,50,50);
+  cerdo4 = new Cerdos(600,150,75,75);
+  cerdo5 = new Cerdos(500,150,30,30);
+  cerdo6 = new Cerdos(700,150,30,30);
+
   
-  caja1 = new CajasBase(670,250,70,70);
-  caja2 = new CajasBase(530,250,70,70);
-  caja3 = new CajasBase(670,100,70,70);
-  caja4 = new CajasBase(530,100,70,70);
-  caja5 = new CajasBase(530,25,70,70);
-  caja6 = new CajasBase(670,25,70,70);
+  caja1 = new CajasBase(670,380,70,70);
+  caja2 = new CajasBase(530,380,70,70);
+  caja3 = new CajasBase(670,310,70,70);
+  caja4 = new CajasBase(530,310,70,70);
+  caja5 = new CajasBase(530,260,70,70);
+  caja6 = new CajasBase(670,260,70,70);
   
-  tronco1 = new Tronco(600,150,300,PI / 2);
-  tronco2 = new Tronco(600,50,300,PI / 2);
-  tronco3 = new Tronco(600,10,450,PI / 2);
+  tronco1 = new Tronco(600,350,300,PI / 2);
+  tronco2 = new Tronco(600,300,300,PI / 2);
+  tronco3 = new Tronco(600,180,450,PI / 2);
  
   gameState = "OnSling";
 
@@ -68,7 +76,7 @@ createCanvas(1200,400)
 }
 
 function draw(){
- background(i);
+ background(img);
  Engine.update(engine);
 
   textSize(25);
@@ -84,11 +92,15 @@ function draw(){
   cerdo2.display();
   cerdo3.display();
   cerdo4.display();
+  cerdo5.display();
+  cerdo6.display();
 
   cerdo1.score();
   cerdo2.score();
   cerdo3.score();
   cerdo4.score();
+  cerdo5.score();
+  cerdo6.score();
 
   caja1.display();
   caja2.display();
@@ -100,12 +112,17 @@ function draw(){
   tronco1.display();
   tronco2.display();
   tronco3.display();
+
+  if(score ===60 ){
+    text("¡¡YOU WIN!!",600,140);
+    gameState = "XD";
+  }
   
   
 }
 function mouseDragged(){
   
-  if(gameState != "Launched"){
+  if(gameState === "OnSling"){
     Matter.Body.setPosition(bird.body,{x:mouseX,y:mouseY});
   }
 }
@@ -119,4 +136,16 @@ function keyPressed(){
     resortera.atached(bird.body);
     gameState = "OnSling";
   }
+}
+function getBck(){
+  var fecha = new Date()
+  var hora = fecha.getHours();
+  if(hora >05 && hora < 21 ){
+    bg = "sprites/bg.png"
+  }
+  else{
+    bg = "sprites/bg2.jpg"
+  }
+  img = loadImage(bg);
+  console.log(hora);
 }
